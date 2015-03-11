@@ -13,6 +13,10 @@ class WigleAuthenticationError(Exception):
 
 class Wigle(object):
     def __init__(self, user, password):
+        """
+        Create a new webservice proxy object. It will authenticate with user
+        and password credentials on the first connection attempt.
+        """
         self.user = user
         self.password = password
         self._auth_cookies = None
@@ -56,6 +60,12 @@ class Wigle(object):
             self.reauthenticate()
 
     def get_user_info(self):
+        """
+        Request information about current user.
+
+        Returns:
+            dict: Description of user.
+        """
         resp = self._authenticated_request('jsonUser')
         info = resp.json()
         return info
@@ -65,6 +75,27 @@ class Wigle(object):
                last_update=None,
                address=None, state=None, zipcode=None,
                on_new_page=None):
+        """
+        Search the Wigle wifi database for matching entries. The following
+        criteria are supported:
+
+        Args:
+            lat_range ((float, float)): latitude range
+            long_range ((float, float)): longitude range
+            variance (float): radius tolerance in degrees
+            bssid (str): BSSID/MAC of AP
+            ssid (str): SSID of network
+            last_update (datetime): when was the AP last seen
+            address (str): location, address
+            state (str): location, state
+            zipcode (str): location, zip code
+            on_new_page (func(int)): callback to notify when requesting new
+                page of results
+
+        Returns:
+            [dict]: list of dicts describing matching wifis
+        """
+
         params = {
             'latrange1': lat_range[0] if lat_range else "",
             'latrange2': lat_range[1] if lat_range else "",
