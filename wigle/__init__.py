@@ -135,7 +135,7 @@ class Wigle(object):
             'latrange2': lat_range[1] if lat_range else "",
             'longrange1': long_range[0] if long_range else "",
             'longrange2': long_range[1] if long_range else "",
-            'variance': str(variance) or "0.01",
+            'variance': str(variance) if variance else "0.01",
             'netid': bssid or "",
             'ssid': ssid or "",
             'lastupdt': last_update.strftime("%Y%m%d%H%M%S") if last_update else "",
