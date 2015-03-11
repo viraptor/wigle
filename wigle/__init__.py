@@ -12,8 +12,37 @@ def normalise_entry(net):
     net['trilong'] = float(net['trilong'])
 
 
-class WigleAuthenticationError(Exception):
+class WigleError(Exception):
     pass
+
+
+class WigleAuthenticationError(WigleError):
+    """
+    Incorrect credentials.
+    """
+    pass
+
+
+class WigleRequestFailure(WigleError):
+    """
+    Generic "request unsuccessful" error.
+    """
+    pass
+
+
+class WigleRatelimitExceeded(WigleRequestFailure):
+    """
+    Too many requests have been made in a short time.
+    """
+    pass
+
+
+def raise_wigle_error(data):
+    message = data.get('message')
+    if message == "too many queries":
+        raise WigleRatelimitExceeded()
+    else:
+        raise WigleRequestFailure(message)
 
 
 class Wigle(object):
@@ -123,7 +152,7 @@ class Wigle(object):
             resp = self._authenticated_request('jsonSearch', params=params)
             data = resp.json()
             if not data['success']:
-                break
+                raise_wigle_error(data)
 
             for result in data['results'][:max_results-len(wifis)]:
                 normalise_entry(result)
