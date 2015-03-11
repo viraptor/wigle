@@ -11,9 +11,19 @@ setup(
     license="MIT",
     install_requires=["requests"],
     keywords="wigle wifi api search",
+    url='https://github.com/viraptor/wigle',
     entry_points={'console_scripts': [
         'wigle_user_info=wigle.cmd:user_info',
         'wigle_search=wigle.cmd:search',
         ]},
     packages=find_packages(),
+    clasifiers=[
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3',
+        'Topic :: Software Development :: Libraries',
+        'Topic :: System :: Networking',
+        'Topic :: Utilities',
+        ]
     )
