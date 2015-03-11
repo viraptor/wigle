@@ -17,7 +17,7 @@ setup(
         'wigle_search=wigle.cmd:search',
         ]},
     packages=find_packages(),
-    clasifiers=[
+    classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
