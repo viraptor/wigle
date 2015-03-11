@@ -26,6 +26,8 @@ def search():
                         help='SSID of the network')
     parser.add_argument('--bssid', dest='bssid', type=str,
                         help='BSSID of the network')
+    parser.add_argument('--max', dest='max', type=int, default=20,
+                        help='maximum number of networks to download')
     args = parser.parse_args()
 
     def notify_new_page(first):
@@ -34,7 +36,8 @@ def search():
     results = Wigle(args.user, args.password).search(
         ssid=args.ssid,
         bssid=args.bssid,
-        on_new_page=notify_new_page)
+        on_new_page=notify_new_page,
+        max_results=args.max)
 
     for result in results:
         print("%(ssid)s, %(netid)s, %(trilat)s, %(trilong)s" % result)

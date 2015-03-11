@@ -74,7 +74,7 @@ class Wigle(object):
                bssid=None, ssid=None,
                last_update=None,
                address=None, state=None, zipcode=None,
-               on_new_page=None):
+               on_new_page=None, max_results=100):
         """
         Search the Wigle wifi database for matching entries. The following
         criteria are supported:
@@ -120,10 +120,10 @@ class Wigle(object):
             if not data['success']:
                 break
 
-            for result in data['results']:
+            for result in data['results'][:max_results-len(wifis)]:
                 wifis.append(result)
 
-            if data['resultCount'] < WIGLE_PAGESIZE:
+            if data['resultCount'] < WIGLE_PAGESIZE or len(wifis) >= max_results:
                 break
 
             params['first'] = data['last'] + 1
