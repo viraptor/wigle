@@ -73,7 +73,7 @@ class Wigle(object):
             'variance': str(variance) or "0.01",
             'netid': bssid or "",
             'ssid': ssid or "",
-            'lastupdt': last_update or "",
+            'lastupdt': last_update.strftime("%Y%m%d%H%M%S") if last_update else "",
             'addresscode': address or "",
             'statecode': state or "",
             'zipcode': zipcode or "",
