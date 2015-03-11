@@ -7,6 +7,11 @@ WIGLE_ENDPOINT = 'https://wigle.net/api/v1'
 WIGLE_PAGESIZE = 100
 
 
+def normalise_entry(net):
+    net['trilat'] = float(net['trilat'])
+    net['trilong'] = float(net['trilong'])
+
+
 class WigleAuthenticationError(Exception):
     pass
 
@@ -121,6 +126,7 @@ class Wigle(object):
                 break
 
             for result in data['results'][:max_results-len(wifis)]:
+                normalise_entry(result)
                 wifis.append(result)
 
             if data['resultCount'] < WIGLE_PAGESIZE or len(wifis) >= max_results:
